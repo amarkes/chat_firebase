@@ -2,26 +2,30 @@ import {Component} from '@angular/core';
 import {NavController, AlertController, LoadingController} from 'ionic-angular';
 import {FirebaseAuth, AuthProviders, AuthMethods} from 'angularfire2';
 import {HomePage} from '../home/home';
- 
+
 @Component({
   templateUrl: 'login.html',
 })
 export class LoginPage {
   loader: any;
   user = {email: '', password: ''};
- 
-  constructor(public nav: NavController, public auth: FirebaseAuth, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}
- 
+
+  constructor(public nav: NavController, public auth: FirebaseAuth, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
+    if(localStorage.getItem('user')){
+    	this.nav.setRoot(HomePage);
+    }
+  }
+
   public registerUser() {
     this.showLoading()
- 
+
     this.auth.createUser(this.user).then((authData) => {
       setTimeout(() => {
         this.loader.dismiss();
       });
       let prompt = this.alertCtrl.create({
         title: 'Success',
-        subTitle: 'Your new Account was created!',
+        subTitle: 'Sua conta foi criar com sucesso!',
         buttons: ['OK']
       });
       prompt.present();
@@ -29,14 +33,15 @@ export class LoginPage {
       this.showError(error);
     });
   }
- 
+
   public login() {
     this.showLoading()
- 
+
     this.auth.login(this.user, {
       provider: AuthProviders.Password,
         method: AuthMethods.Password
     }).then((authData) => {
+      localStorage.setItem('auth', authData.auth.email);
 	   	localStorage.setItem('user', authData.uid);
     	this.loader.dismiss();
     	this.nav.setRoot(HomePage);
@@ -44,19 +49,19 @@ export class LoginPage {
       this.showError(error);
     });
   }
- 
+
   showLoading() {
     this.loader = this.loadingCtrl.create({
       content: 'Please wait...'
     });
     this.loader.present();
   }
- 
+
   showError(text) {
     setTimeout(() => {
       this.loader.dismiss();
     });
- 
+
     let prompt = this.alertCtrl.create({
       title: 'Fail',
       subTitle: text,

@@ -1,58 +1,49 @@
 import {NavController, AlertController} from 'ionic-angular';
 import {FirebaseAuth, AngularFire, FirebaseListObservable} from 'angularfire2';
 import {Component} from "@angular/core";
- 
 
-import {FiltradaPage} from '../filtrada/filtrada';
-import {FavoritosPage} from '../favoritospage/favoritospage';
+
+import {LoginPage} from '../login/login';
 
 
 @Component({
   templateUrl: 'home.html'
 })
 export class HomePage {
-  todoList: FirebaseListObservable<any>;
-  favoritos: FirebaseListObservable<any>;
-  constructor(public af: AngularFire, public auth: FirebaseAuth, public nav: NavController, private alertCtrl: AlertController) {}
- 
+  Rooms: FirebaseListObservable<any>;
+  usuario = localStorage.getItem('user');
+  constructor(
+    public af: AngularFire,
+    public auth: FirebaseAuth,
+    public nav: NavController,
+    private alertCtrl: AlertController) {
+      if(!localStorage.getItem('user')){
+      	this.nav.setRoot(LoginPage);
+      }
+    }
+
   public createTodo() {
     this.editTodo(null, true);
   }
- 
+
   public openTodo(todo) {
     this.editTodo(todo, false);
   }
- 
+
   public removeTodo(item) {
-    this.todoList.remove(item);
+    this.Rooms.remove(item);
   }
-  public addFavoritos(item) {
 
-    
-  	var resulitem = { user:null, id:null };
- 		resulitem = { user:localStorage.getItem('user'), id:item.id };
-  	this.favoritos.push(resulitem);
-
-  }
   editTodo(todo, isNew: boolean) {
     let prompt = this.alertCtrl.create({
-      title: isNew ? 'Create Todo' : 'Update Todo',
+      title: isNew ? 'Criar sala?' : 'Update Todo',
+      message: 'Deseja criar uma nova sala?',
       inputs: [
         {
-          name: 'produto',
-          placeholder: 'Nome do produto',
+          name: 'nome',
+          placeholder: 'Nome da sala',
           value: todo ? todo.nome : ''
-        },
-        {
-          name: 'valor',
-          placeholder: 'Valor',
-          value: todo ? todo.valor : ''
-        },
-        {
-          name: 'quantidade',
-          placeholder: 'Qtl',
-          value: todo ? todo.quantidade : ''
-        },
+        }
       ],
       buttons: [
         {
@@ -60,20 +51,18 @@ export class HomePage {
           role: 'cancel'
         },
         {
-          text: todo ? 'Update' : 'Add',
+          text: todo ? 'Alterar' : 'Adicionar',
           handler: data => {
           	var save = {
-          		id:"11",
-          		nome:data.produto,
-          		valor:data.valor,
-          		quantidade:data.quantidade,
+          		user:localStorage.getItem('user'),
+          		nome:data.nome,
+          		usuarios:0,
           		date:Date()
           	}
-          	console.log(save);
             if (isNew) {
-              this.todoList.push(save);
+              this.Rooms.push(save);
             } else {
-              this.todoList.update(todo, save);
+              this.Rooms.update(todo, save);
             }
           }
         }
@@ -81,20 +70,13 @@ export class HomePage {
     });
     prompt.present();
   }
- 
+
   ngOnInit() {
     this.auth.subscribe((data) => {
       if (data) {
-        this.todoList = this.af.database.list('/todoList');
-        this.favoritos = this.af.database.list('/favoritos');
+        this.Rooms = this.af.database.list('/Rooms');
       }
     })
   }
-  primeira() {
-  	this.nav.setRoot(FiltradaPage);
-  }
 
-  favoritospage() {
-    this.nav.setRoot(FavoritosPage)
-  }
 }
