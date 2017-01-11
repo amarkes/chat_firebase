@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+  <ion-title>
+    Você está na Home
+  </ion-title>
+  <ion-buttons end>
+    <button (click)="createTodo()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+</ion-header>
+ 
+<ion-content class="home">
+ 
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of todoList | async">
+    	<ion-item (click)="openTodo(item)">
+    	<h2>{{item.nome}}</h2>
+    	<p>Quantidade: {{item.quantidade}}</p>
+    	<p item-right>R$ {{item.valor}}</p>
+ 		</ion-item>
+      <ion-item-options>
+        <button color="danger" (click)="removeTodo(item)"><ion-icon name="trash"></ion-icon> Deletar</button>
+        <button (click)="addFavoritos(item)"><ion-icon name="heart"></ion-icon> Favoritar</button>
+      </ion-item-options>
+    </ion-item-sliding>
+ 
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button (click)="primeira()">Filtrada</button>
+    <button ion-button (click)="favoritospage()">Favoritos</button>
+  </ion-toolbar>
+</ion-footer>
