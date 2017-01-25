@@ -1,0 +1,59 @@
+.button-send {
+	min-width: .9em;
+    height: 40px;
+    width: 10%;
+    padding: 3px!important;
+    font-size: 11px;
+    margin-top: -7px;
+    margin-left: -6px;
+}
+.sending:before {
+	content: "";
+    border-left: 15px solid #00d449;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    left: initial;
+    margin-top: 2%;
+}
+.sending {
+	background: #00d449;
+    width: auto;
+    float: right;
+    clear: both;
+    color: #fff;
+    border-radius: 10px;
+}
+.sending .card-content-ios {
+	padding: 10px;
+}
+
+.sendingone:before {
+	content: "";
+    border-right: 15px solid #e5e5ea;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    display: inline-block;
+    position: absolute;
+    left: 3px;
+    margin-top: 2%;
+}
+.sendingone {
+	background: #e5e5ea;
+    width: auto;
+    float: left;
+    clear: both;
+    color: #141414;
+    border-radius: 10px;
+}
+.sendingone .card-content-ios {
+	padding: 10px;
+}
+.input-send {
+	width: 90%;
+    height: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
+}

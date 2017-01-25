@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+  <ion-title>
+    {{roomname}}
+  </ion-title>
+  <ion-buttons end>
+    <button (click)="createTodo()">
+      <ion-icon name="add" color="vibrant"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+</ion-header>
+
+<ion-content class="">
+  <ion-card *ngFor="let rm of Room | async" [ngClass]="{sending: rm.user == usuario, sendingone: rm.user != usuario}">
+    
+    <ion-card-content>
+      {{rm.mensagem}}
+    </ion-card-content>
+
+  </ion-card>
+  
+</ion-content>
+
+<ion-footer>
+  <form>
+    <input type="text" name="mensagem" [(ngModel)]="mensagem" class="input-send">
+    <button ion-button icon-only (click)="SendMensagem()" class="button-send" ><ion-icon name="send"></ion-icon></button>
+  </form>
+</ion-footer>

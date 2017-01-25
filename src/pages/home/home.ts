@@ -4,6 +4,7 @@ import {Component} from "@angular/core";
 
 
 import {LoginPage} from '../login/login';
+import {RoomPage} from '../room/room';
 
 
 @Component({
@@ -71,10 +72,16 @@ export class HomePage {
     prompt.present();
   }
 
+  RoomEnter(id, nome) {
+    console.log(id);
+    this.nav.push(RoomPage, { ident: id, nome: nome});
+  }
+
   ngOnInit() {
     this.auth.subscribe((data) => {
       if (data) {
         this.Rooms = this.af.database.list('/Rooms');
+
       }
     })
   }

@@ -15,7 +15,7 @@
 
   <ion-list>
     <ion-item-sliding *ngFor="let room of Rooms | async">
-      <ion-item>
+      <ion-item (click)="RoomEnter(room.$key, room.nome)">
       	<h2>{{room.nome}}</h2>
       	<p item-right>{{room.usuarios}}</p>
    		</ion-item>

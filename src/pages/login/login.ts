@@ -11,7 +11,7 @@ export class LoginPage {
   user = {email: '', password: ''};
 
   constructor(public nav: NavController, public auth: FirebaseAuth, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
-    if(localStorage.getItem('user')){
+    if(localStorage.getItem('user') && localStorage.getItem('auth')){
     	this.nav.setRoot(HomePage);
     }
   }
